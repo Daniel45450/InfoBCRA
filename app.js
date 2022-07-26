@@ -31,7 +31,6 @@ const procesar_reservas = async() => {
         let salida_dias_importantes = `${dias_importantes_reservas.dia_min}:${dias_importantes_reservas.cantidad_min}\n${dias_importantes_reservas.dia_max}:${dias_importantes_reservas.cantidad_max}\n`;
         salida_dias_importantes += salida;
         fs.writeFileSync('./salida/reservasBCRA.txt', salida_dias_importantes);    
-        console.log("Archivo creado".green.bold);
     }
 
 }
@@ -46,6 +45,9 @@ const main = async() => {
     }
     if(argv.max) {
         console.log(`El ${colors.brightGreen.bold(dias_importantes_reservas.dia_max)} se registro la mayor cantidad de reservas y fue de ${colors.brightRed.bold(dias_importantes_reservas.cantidad_max)} USD`);
+    }
+    if(argv.f) {
+        console.log("\nArchivo creado".green.bold);
     }
 }
 
