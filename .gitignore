@@ -1,4 +1,4 @@
-config/token.js
+config/*.js
 node_modules
 package-lock.json
-salida/.txt
+salida/*.txt

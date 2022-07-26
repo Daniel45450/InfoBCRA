@@ -1,6 +1,6 @@
 ## ------------ Datos del BCRA ------------
 
-Para que la app funciones necesitas crear un archivo llamado token.js y crear una funcion de este estilo
+Para que la app funciones necesitas crear un archivo llamado token.js en la carpeta /config y crear una funcion de este estilo
 
 ~~~
     export const getToken = () => {
