@@ -3,5 +3,28 @@
     "colors": "^1.4.0",
     "node-fetch": "^3.2.9"
   },
-  "type": "module"
+  "type": "module",
+  "name": "datosbcra-noweb",
+  "description": "Para que la app funciones necesitas crear un archivo llamado token.js en la carpeta /config y crear una funcion de este estilo",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Daniel45450/InfoBCRA.git"
+  },
+  "keywords": [
+    "BCRA",
+    "API",
+    "DATOS"
+  ],
+  "author": "Daniel Gabinari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Daniel45450/InfoBCRA/issues"
+  },
+  "homepage": "https://github.com/Daniel45450/InfoBCRA#readme"
 }
