@@ -2,53 +2,32 @@ import * as fs from 'fs';
 import colors from 'colors';
 
 import { argv } from './config/yarg_config.js';
-import { obtenerReservas, iniciarReservas } from './funciones/funciones.js';
+import { obtenerReservas, procesar_reservas } from './funciones/funciones.js';
+import { Reservas } from './clases/clases.js';
 
+import { exit } from 'process';
 
-let dias_importantes_reservas = {};
 let salida= "";
+const reservas = new Reservas();
 
-const procesar_reservas = async() => {
-    const datos = await obtenerReservas();
-    dias_importantes_reservas = iniciarReservas(datos[0].d, datos[0].d, datos[datos.length-1].d, datos[datos.length-1].v, datos[0].v,datos[0].v);
-    
-    for(let x in datos) {
-        let dia = datos[x].d;
-        let cantidad = datos[x].v;
-        if(dias_importantes_reservas.cantidad_max < cantidad) {
-            dias_importantes_reservas.cantidad_max = cantidad;
-            dias_importantes_reservas.dia_max = dia;
-        }
-        if(dias_importantes_reservas.cantidad_min > cantidad) {
-            dias_importantes_reservas.cantidad_min = cantidad;
-            dias_importantes_reservas.dia_min = dia;
-        }
-
-        salida += `${datos[x].d}:${datos[x].v}\n`;
-    }
-    
-    if(argv.f) {
-        let salida_dias_importantes = `${dias_importantes_reservas.dia_min}:${dias_importantes_reservas.cantidad_min}\n${dias_importantes_reservas.dia_max}:${dias_importantes_reservas.cantidad_max}\n`;
-        salida_dias_importantes += salida;
-        fs.writeFileSync('./salida/reservasBCRA.txt', salida_dias_importantes);    
-    }
-
-}
-
-const main = async() => {
+const controladorReservas = async() => {
     console.clear();
-    await procesar_reservas();
+    await procesar_reservas(reservas, argv.f);
+    const reservaActual = reservas.obtenerReservaActual();
     console.log(`Reservas medidas en ${colors.brightBlue("Millones de Dolares")}\n`);
-    console.log(`Ultimo registro: ${colors.brightGreen.bold(dias_importantes_reservas.dia_actual)} reservas ${colors.brightRed.bold(dias_importantes_reservas.reservas_actual)} USD\n\n`);
+    console.log(`Ultimo registro: ${colors.brightGreen.bold(`${reservaActual.fecha.getDate() + 1}/${reservaActual.fecha.getMonth() + 1}/${reservaActual.fecha.getFullYear()}`)} reservas ${colors.brightRed.bold(`${reservaActual.cantidad}`)} USD\n\n`);
+    
     if(argv.min) {
-        console.log(`El ${colors.brightGreen.bold(dias_importantes_reservas.dia_min)} se registro la menor cantidad de reservas y fue de ${colors.brightRed.bold(dias_importantes_reservas.cantidad_min)} USD`);
+        const reserva_minima = reservas.obtenerReservasMinimas();
+        console.log(`El ${colors.brightGreen.bold(`${reserva_minima.fecha.getDate() + 1}/${reserva_minima.fecha.getMonth() + 1}/${reserva_minima.fecha.getFullYear()}`)} se registro la menor cantidad de reservas y fue de ${colors.brightRed.bold(`${reserva_minima.cantidad}`)} USD`);
     }
     if(argv.max) {
-        console.log(`El ${colors.brightGreen.bold(dias_importantes_reservas.dia_max)} se registro la mayor cantidad de reservas y fue de ${colors.brightRed.bold(dias_importantes_reservas.cantidad_max)} USD`);
+        const reserva_maxima = reservas.obtenerReservasMaximas();
+        console.log(`El ${colors.brightGreen.bold(`${reserva_maxima.fecha.getDate() + 1}/${reserva_maxima.fecha.getMonth() + 1}/${reserva_maxima.fecha.getFullYear()}`)} se registro la mayor cantidad de reservas y fue de ${colors.brightRed.bold(`${reserva_maxima.cantidad}`)} USD`);
     }
     if(argv.f) {
         console.log("\nArchivo creado".green.bold);
     }
 }
 
-main();
+controladorReservas();
