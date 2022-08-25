@@ -2,7 +2,8 @@ import fetch from 'node-fetch';
 import { getToken } from "../config/token.js";
 import { argv } from '../config/yarg_config.js';
 import colors from 'colors';
-import {Evento, Eventos} from "../clases/clases.js";
+import {Evento} from "../models/Evento.js";
+import {Eventos} from "../models/Eventos.js";
 
 const eventosURL = "https://api.estadisticasbcra.com/milestones";
 
