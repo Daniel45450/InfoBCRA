@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+
 export class Eventos {
     eventos = [];
     PRESIDENCIA = "pres";
@@ -22,5 +24,32 @@ export class Eventos {
 
     obtenerEventos_misc() {
         return this.eventos.filter(e => e.tipo === this.MISCALENOS);
+    }
+
+    createFilePresidencias(path = "") {
+        if(path.length === 0) {
+            return `Path no valido`
+        }
+        let salida = "";
+        const presidencias = this.obtenerEventos_presidencia();
+        presidencias.forEach(p => {
+            salida += `${p.info}:${p.fecha.getDate() + 1}/${p.fecha.getMonth() +1}/${p.fecha.getFullYear()}\n`;
+        })
+        fs.writeFileSync(path, salida);
+        console.log("\nArchivo creado".green.bold);
+    }
+
+    createFileMinistros(path = "") {
+        if(path.length === 0) {
+            return `Path no valido`
+        }
+        let salida = "";
+        const ministros = this.obtenerEventos_ministros();
+        ministros.forEach(m => {
+            salida += `${m.info}:${m.fecha.getDate() + 1}/${m.fecha.getMonth() +1}/${m.fecha.getFullYear()}\n`;            
+        })
+
+        fs.writeFileSync(path, salida);
+        console.log("\nArchivo creado".green.bold);
     }
 }

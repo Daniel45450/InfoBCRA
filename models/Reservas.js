@@ -78,7 +78,7 @@ export class Reservas {
         }
         let salida = "";
         this.reservas.forEach(r => {
-            salida += `${r.fecha}:${r.cantidad}\n`;
+            salida += `${r.fecha.getDate() + 1}/${r.fecha.getMonth() + 1}/${r.fecha.getFullYear()}:${r.cantidad}\n`;
         });
 
         fs.writeFileSync(path, salida);

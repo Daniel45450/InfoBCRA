@@ -2,3 +2,4 @@ config/token.js
 node_modules
 package-lock.json
 salida/*.txt
+test.js

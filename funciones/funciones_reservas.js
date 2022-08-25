@@ -5,11 +5,10 @@ import {getToken} from "../config/token.js"
 import { argv } from '../config/yarg_config.js';
 import colors from 'colors';
 import * as fs from 'fs';
-
-const url_reservas = `https://api.estadisticasbcra.com/reservas`;
-
+import { leerInput } from '../views/inquirer.js';
 
 const obtenerReservas = async() => {
+    const url_reservas = `https://api.estadisticasbcra.com/reservas`;
     try {
         
         const datos = await fetch(url_reservas, {
@@ -59,7 +58,8 @@ export const controladorReservas = async(reservas, opciones = [], ejecutado = fa
                 console.log(`El ${colors.brightGreen.bold(`${reserva_maxima.fecha.getDate() + 1}/${reserva_maxima.fecha.getMonth() + 1}/${reserva_maxima.fecha.getFullYear()}`)} se registro la mayor cantidad de reservas y fue de ${colors.brightRed.bold(`${reserva_maxima.cantidad}`)} USD`);        
             break;
             case 4:
-                //TODO crear archivo con las reservas 
+                const path = "./salida/Reservas.txt";
+                reservas.createFileInfo(path);
             break;
         }
     })
